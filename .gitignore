@@ -1,0 +1,8 @@
+.git/
+*.pot
+*.py[co]
+.tox/
+venv/
+
+source/
+backup.zip
