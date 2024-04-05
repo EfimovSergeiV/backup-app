@@ -7,9 +7,8 @@ from smb.SMBConnection import SMBConnection
 
 
 def get_list_files(username, password, server, share):
-    """
-    Возвращает список файлов на сервере
-    """
+    """ Возвращает список файлов на сервере """
+   
     list_files = []
     conn = SMBConnection(username, password, "pysmb", server, use_ntlm_v2=True)
     conn.connect(server, 445)
@@ -28,9 +27,8 @@ def get_list_files(username, password, server, share):
 
 
 def remove_files(username, password, server, share, list_files):
-    """
-    Удаляет файлы с сервера
-    """
+    """ Удаляет файлы с сервера """
+
     conn = SMBConnection(username, password, "pysmb", server, use_ntlm_v2=True)
     conn.connect(server, 445)
     try:
@@ -41,11 +39,6 @@ def remove_files(username, password, server, share, list_files):
 
     conn.close()
     return True
-
-
-
-
-
 
 
 
@@ -65,19 +58,3 @@ def upload_file( username, password, server, share, filename, OUTPUT_FILE=None):
     fh = director.open(f'smb://{ username }:{ password }@{ server }/{ share }/backups/{ filename }', data = file_fh)
     fh.close()
 
-
-
-
-# Удаление лишних файлов
-def del_files(list_files, conn, share):
-    
-    for file in list_files:
-        try:
-            # Удаление файла, если он не сделан первого числа месяца
-            if file.split('.')[0].startswith('01'):
-                continue
-            conn.deleteFiles(share, f'backups/{ file }')
-            print(f'Файл { file } удален')
-
-        except Exception as e:
-            print(f'Ошибка при удалении файла { file }: { e }')
