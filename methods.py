@@ -1,60 +1,59 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys, os, zipfile, urllib, datetime
-from smb.SMBHandler import SMBHandler
-from smb.SMBConnection import SMBConnection
+import sys, os, zipfile, subprocess, datetime
+from pathlib import Path
 
 
-def get_list_files(username, password, server, share):
-    """ Возвращает список файлов на сервере """
-   
-    list_files = []
-    conn = SMBConnection(username, password, "pysmb", server, use_ntlm_v2=True)
-    conn.connect(server, 445)
-    try:
-        file_list = conn.listPath(share, "backups")
-        for item in file_list:
-            if not item.isDirectory and item.filename.endswith('.zip'):
-                list_files.append(item.filename)
-    except Exception as e:
-        print("Ошибка при получении списка файлов:", e)
-
-    list_files.sort(key=lambda x: datetime.datetime.strptime(x.split('.')[0], '%d-%m-%Y'), reverse=True)
-    conn.close()
-
-    return list_files
 
 
-def remove_files(username, password, server, share, list_files):
+
+def get_list_files(folder_path):
+    """ Возвращает список .zip архивов на сервере """
+    if os.path.exists(folder_path) and os.path.isdir(folder_path):
+        list_files = []
+        for item in os.listdir(folder_path):
+            if item.endswith('.zip'):
+                list_files.append(item)
+        return list_files
+
+
+def remove_files(folder_path, list_files):
     """ Удаляет файлы с сервера """
-
-    conn = SMBConnection(username, password, "pysmb", server, use_ntlm_v2=True)
-    conn.connect(server, 445)
-    try:
-        for file in list_files:
-            conn.deleteFiles(share, f'backups/{ file }')
-    except Exception as e:
-        print(f'Ошибка при удалении файла { file }: { e }')
-
-    conn.close()
+    for file in list_files:
+        try:
+            os.remove(f'{ folder_path }/{ file }')
+        except Exception as e:
+            print(f'Ошибка при удалении файла { file }: { e }')
     return True
 
 
-
-
-# Создаём новый архив
-def create_zip(source_dir, OUTPUT_FILE):
-    with zipfile.ZipFile(OUTPUT_FILE, 'w') as zipf:
+def create_zip(source_dir, output_file= Path('C:/PLM-BACKUP.zip')):
+    """ Создаёт архив из файлов """
+    with zipfile.ZipFile(Path('C:/PLMFILES.zip'), 'w') as zipf:
         for root, dirs, files in os.walk(source_dir):
             for file in files:
                 zipf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), source_dir))
 
+    with zipfile.ZipFile(output_file, 'w') as zipf:
+        zipf.write(Path('C:/PLM-DATA.bak'))
+        zipf.write(Path('C:/PLMFILES.zip'))
+        zipf.write(Path('C:/Program Files (x86)/Програмсоюз/BIS v3/PLMClient.exe.config'), 'PLMClient.exe.config')
+
+    os.system(f"del { Path('C:/PLMFILES.zip') }")
+    os.system(f"del { Path('C:/PLM-DATA.bak') }")
+
+    return True
+
 
 # Выгрузка нового архива на smb сервер
 def upload_file( username, password, server, share, filename, OUTPUT_FILE=None):
-    file_fh = open(OUTPUT_FILE, 'rb')
-    director = urllib.request.build_opener(SMBHandler)
-    fh = director.open(f'smb://{ username }:{ password }@{ server }/{ share }/backups/{ filename }', data = file_fh)
-    fh.close()
+    return True
 
+
+def backup_database(server, database, backup_path):
+    """ Создаёт резервную копию базы данных """
+    backup_cmd = f'sqlcmd -S {server} -d {database} -E -Q "BACKUP DATABASE [{database}] TO DISK=\'{backup_path}\'"'
+    os.system(f"echo > { Path('C:/PLM-DATA.bak' )}")
+    subprocess.run(backup_cmd, shell=True)
+    return True

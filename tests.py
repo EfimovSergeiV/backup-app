@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys, os, zipfile, urllib, datetime
+import sys, os, zipfile, urllib, datetime, shutil
 from smb.SMBHandler import SMBHandler
 from smb.SMBConnection import SMBConnection
 from time import sleep
@@ -13,24 +13,26 @@ SERVER='192.168.60.187'
 SHARE='public'
 
 
-tmp_year = 2023
+tmp_year = 2024
 tmp_month = 1
 tmp_day = 0
 
 
-def upload_file(username, password, server, share, filename):
+def upload_file(filename):
+    folder_path = r'\\192.168.60.186\plm-bps'
 
-    # создаём файл
-    with open(f'backups/{filename}', 'w') as file:
+    # создаём временный файл
+    with open(f'backups\{filename}', 'w') as file:
         file.write('test')
 
-    file_fh = open(f'backups/{filename}', 'rb')
-    director = urllib.request.build_opener(SMBHandler)
-    fh = director.open(f'smb://{ username }:{ password }@{ server }/{ share }/backups/{ filename }', data = file_fh)
-    fh.close()
+    # копируем файл на сервер
+    shutil.copy(f'backups\{filename}', folder_path)
 
-    os.remove(f'backups/{filename}')
+    # удаляем временный файл
+    os.remove(f'backups\{filename}')
     os.system(f'python main.py')
+
+    
     
 
 
@@ -52,11 +54,12 @@ for i in range(0, 3600):
 
     filename = f'{ day }-{ month }-{ year }.zip'
 
-    os.system(f'clear')
+    os.system(f'cls')
 
     print(f'\nCREATE: {filename}\n')
-    upload_file(USERNAME, PASSWORD, SERVER, SHARE, filename)
-    sleep(0.5)
+    # upload_file(USERNAME, PASSWORD, SERVER, SHARE, filename)
+    upload_file(filename)
+    sleep(0.3)
 
 
 
