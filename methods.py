@@ -7,13 +7,12 @@ from pathlib import Path
 
 
 def stop_process(process_name):
+    """ Остановка процесса """
     for proc in psutil.process_iter(['pid', 'name']):
         if proc.info['name'] == process_name:
-            print(f"Stopping process {process_name} (PID: {proc.info['pid']})")
-            proc.kill()
-            print(f"Process {process_name} stopped.")
+            proc.kill()            
             return
-    print(f"Process {process_name} not found.")
+    return True
 
 
 def get_list_files(folder_path):
