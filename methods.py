@@ -50,7 +50,8 @@ def create_zip(output_file):
             for file in files:
                 zipf.write(os.path.join(root, file), 'PLMFILES\\' + os.path.relpath(os.path.join(root, file), Path('C:\PLMFILES')))
         zipf.write(Path('C:/PLM-DATA.bak'))
-        zipf.write(Path('C:/Program Files (x86)/Програмсоюз/BIS v3/PLMClient.exe.config'), 'PLMClient.exe.config')
+        zipf.write(Path('C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe.config'), 'PLMMainServer.exe.config')
+        zipf.write(Path('C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe.config'), 'PLMFileServer.exe.config')
 
     os.system(f"del { Path('C:/PLM-DATA.bak') }")
 
