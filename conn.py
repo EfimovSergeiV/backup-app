@@ -47,7 +47,7 @@ sleep(5)
 
 def start_process(process_name):
     # Пример команды для запуска процесса, замените на свою
-    command = f"start {Path(splm_serv) / process_name}"
+    command = f"start {Path(f'{splm_serv}/{process_name}') }"
     subprocess.Popen(command, shell=True)
 
 
