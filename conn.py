@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-import os, psutil, subprocess
+import os, psutil, subprocess, datetime
 from pathlib import Path
 from time import sleep
 
@@ -24,23 +24,28 @@ folder_path = r'\\test-bserv\plm-bps'
 
 
 
-def stop_process(process_name):
-    for proc in psutil.process_iter(['pid', 'name']):
-        if proc.info['name'] == process_name:
-            print(f"Stopping process {process_name} (PID: {proc.info['pid']})")
-            proc.kill()
-            print(f"Process {process_name} stopped.")
-            return
-    print(f"Process {process_name} not found.")
+# def stop_process(process_name):
+#     for proc in psutil.process_iter(['pid', 'name']):
+#         if proc.info['name'] == process_name:
+#             print(f"Stopping process {process_name} (PID: {proc.info['pid']})")
+#             proc.kill()
+#             print(f"Process {process_name} stopped.")
+#             return
+#     print(f"Process {process_name} not found.")
 
 
-stop_process('PLMMainServer.exe')
-stop_process('PLMFileServer.exe')
+# stop_process('PLMMainServer.exe')
+# stop_process('PLMFileServer.exe')
 
 
 
-sleep(15)
+# sleep(15)
 
 
-subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe")
-subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe")
+# subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe")
+# subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe")
+
+
+# выводим дату в формате дд-мм-гггг
+a = f"{datetime.datetime.now().strftime('%d-%m-%Y')}.zip"
+print(a)

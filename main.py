@@ -83,7 +83,7 @@ remove_files(SERVER, remove_list)
 
 
 
-now = '02-05-2024.zip'
+now = f"{datetime.datetime.now().strftime('%d-%m-%Y')}.zip" #'02-05-2024.zip'
 
 # Создание свежей резервной копии
 bkp_completed = backup_database(server='localhost', database='PLM-DATA', backup_path=Path('C:/PLM-DATA.bak'))
