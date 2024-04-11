@@ -46,12 +46,12 @@ def backup_database(server, database, backup_path):
 def create_zip(output_file):
     """ Создаёт архив из файлов """
     with zipfile.ZipFile(output_file, 'w') as zipf:
-        for root, dirs, files in os.walk(Path('C:\PLMFILES')):
+        for root, dirs, files in os.walk(Path('C:/PLMFILES')):
             for file in files:
-                zipf.write(os.path.join(root, file), 'PLMFILES\\' + os.path.relpath(os.path.join(root, file), Path('C:\PLMFILES')))
+                zipf.write(os.path.join(root, file), 'PLMFILES\\' + os.path.relpath(os.path.join(root, file), Path('C:/PLMFILES')))
         zipf.write(Path('C:/PLM-DATA.bak'))
-        zipf.write(Path('C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe.config'), 'PLMMainServer.exe.config')
-        zipf.write(Path('C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe.config'), 'PLMFileServer.exe.config')
+        zipf.write(Path('C:/Program Files (x86)/Програмсоюз/BIS v3/Server/PLMMainServer.exe.config'), 'PLMMainServer.exe.config')
+        zipf.write(Path('C:/Program Files (x86)/Програмсоюз/BIS v3/Server/PLMFileServer.exe.config'), 'PLMFileServer.exe.config')
 
     os.system(f"del { Path('C:/PLM-DATA.bak') }")
 
