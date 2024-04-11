@@ -17,7 +17,7 @@ AMOUNT_FILES_YEAR = 3
 MONTH_BACKUP_DATE = '15'
 YEAR_BACKUP_DATE = '10-09'
 
-SERVER = r'\\192.168.60.186\plm-bps'
+SERVER = r'\\test-bserv\plm-bps'
 
     
 

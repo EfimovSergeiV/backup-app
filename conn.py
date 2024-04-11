@@ -6,7 +6,8 @@ import os
 from pathlib import Path
 
 
-folder_path = r'\\192.168.60.186\plm-bps'
+# Открываем диск Z
+folder_path = r'\\test-bserv\plm-bps'
 
 
 if os.path.exists(folder_path) and os.path.isdir(folder_path):
