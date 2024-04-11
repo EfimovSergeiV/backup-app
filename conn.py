@@ -22,7 +22,7 @@ folder_path = r'\\test-bserv\plm-bps'
 # else:
 #     print("Указанный путь не существует или не является папкой.")
 
-splm_serv = Path('C:/Program Files (x86)/Програмсоюз/BIS v3/Server')
+splm_serv = 'C:/Program Files (x86)/Програмсоюз/BIS v3/Server'
 file_proc = 'PLMFileServer.exe'
 main_proc = 'PLMMainServer.exe'
 
@@ -47,11 +47,11 @@ sleep(5)
 
 def start_process(process_name):
     # Пример команды для запуска процесса, замените на свою
-    command = f"start {process_name}.exe"
+    command = f"start {Path(splm_serv) / process_name}"
     subprocess.Popen(command, shell=True)
 
 
-start_process(f'{splm_serv}/{main_proc}')
-start_process(f'{splm_serv}/{file_proc}')
+start_process(main_proc)
+start_process(file_proc)
 
 
