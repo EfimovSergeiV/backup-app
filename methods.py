@@ -1,9 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys, os, zipfile, subprocess, datetime
+import psutil, os, zipfile, subprocess, datetime
 from pathlib import Path
 
+
+
+def stop_process(process_name):
+    for proc in psutil.process_iter(['pid', 'name']):
+        if proc.info['name'] == process_name:
+            print(f"Stopping process {process_name} (PID: {proc.info['pid']})")
+            proc.kill()
+            print(f"Process {process_name} stopped.")
+            return
+    print(f"Process {process_name} not found.")
 
 
 def get_list_files(folder_path):

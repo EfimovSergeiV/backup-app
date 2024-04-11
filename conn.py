@@ -22,9 +22,6 @@ folder_path = r'\\test-bserv\plm-bps'
 # else:
 #     print("Указанный путь не существует или не является папкой.")
 
-splm_serv = 'C:/Program Files (x86)/Програмсоюз/BIS v3/Server'
-file_proc = 'PLMFileServer.exe'
-main_proc = 'PLMMainServer.exe'
 
 
 def stop_process(process_name):
@@ -37,8 +34,8 @@ def stop_process(process_name):
     print(f"Process {process_name} not found.")
 
 
-stop_process(main_proc)
-stop_process(file_proc)
+stop_process('PLMMainServer.exe')
+stop_process('PLMFileServer.exe')
 
 
 

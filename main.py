@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
-import os, datetime, shutil
-from methods import ( get_list_files, remove_files, create_zip, backup_database)
+import os, datetime, shutil, subprocess
+from methods import get_list_files, remove_files, create_zip, backup_database, stop_process
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,6 +23,11 @@ SERVER = r'\\test-bserv\plm-bps'
 
 backups = {}
 remove_list = []
+
+# Остановка серверов ПЛМ
+stop_process('PLMMainServer.exe')
+stop_process('PLMFileServer.exe')
+
 
 # Поиск и удаление неактуальных архивов
 # Раскладываем файлы по годам
@@ -90,3 +95,8 @@ if bkp_completed:
 # Выгрузка архива на smb сервер
 shutil.copy(Path(f'C:/{ now }'), SERVER)
 os.system(f"del { Path(f'C:/{ now }') }")
+
+
+# Запуск ПЛМ
+subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe")
+subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe")
