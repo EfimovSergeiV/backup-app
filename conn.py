@@ -42,16 +42,8 @@ stop_process(file_proc)
 
 
 
-sleep(5)
+sleep(15)
 
 
-def start_process(process_name):
-    # Пример команды для запуска процесса, замените на свою
-    command = f"start {Path(f'{splm_serv}/{process_name}') }"
-    subprocess.Popen(command, shell=True)
-
-
-start_process(main_proc)
-start_process(file_proc)
-
-
+subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe")
+subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe")
