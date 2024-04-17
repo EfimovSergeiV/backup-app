@@ -100,3 +100,4 @@ os.system(f"del { Path(f'C:/{ now }') }")
 # Запуск ПЛМ
 subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMMainServer.exe")
 subprocess.Popen(r"C:\Program Files (x86)\Програмсоюз\BIS v3\Server\PLMFileServer.exe")
+os.system('exit')
